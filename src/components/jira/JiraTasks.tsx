@@ -1,6 +1,8 @@
-import { IoCheckmarkCircleOutline, IoEllipsisHorizontalOutline } from 'react-icons/io5';
+import { IoCheckmarkCircleOutline, IoAddOutline } from 'react-icons/io5';
 import type { Task, TaskStatus } from '../../interfaces/task.interface';
 import SingleTask from './SingleTask';
+import classNames from 'classnames';
+import { useTasks } from '../../hooks/useTasks';
 
 interface Props {
   tasks: Task[];
@@ -9,9 +11,30 @@ interface Props {
 }
 
 
-export const JiraTasks = ({ tasks, title }: Props) => {
+export const JiraTasks = ({ tasks, title, status }: Props) => {
+
+  const {
+    isDragging,
+    onDragOver,
+    handleAddTask,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop
+  } = useTasks({ status });
+
+
   return (
-    <div className="!text-black relative flex flex-col rounded-[20px]  bg-white bg-clip-border shadow-3xl shadow-shadow-500  w-full !p-4 3xl:p-![18px]">
+    <div
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      className={
+        classNames("!text-black border-4 relative border- flex flex-col rounded-[20px]  bg-white bg-clip-border shadow-3xl shadow-shadow-500  w-full !p-4 3xl:p-![18px]", {
+          "border-blue-500 border-dotted": isDragging,
+          "border-green-500 border-dotted": isDragging && onDragOver
+        })
+      }
+    >
 
 
       {/* Task Header */ }
@@ -28,8 +51,8 @@ export const JiraTasks = ({ tasks, title }: Props) => {
           <h4 className="ml-4 text-xl font-bold text-navy-700">{ title }</h4>
         </div>
 
-        <button>
-          <IoEllipsisHorizontalOutline />
+        <button onClick={handleAddTask}>
+          <IoAddOutline />
         </button>
 
       </div>

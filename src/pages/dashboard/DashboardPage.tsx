@@ -2,10 +2,14 @@ import { IoAccessibilityOutline, IoHeartOutline, IoListOutline, IoLockClosedOutl
 import { WhiteCard } from '../../components';
 import { useBearStore } from '../../store';
 import { usePersonStore } from '../../store/people/people.store';
+import { useTaskStore } from '../../store/task/task.store';
 
 export const Dashboard = () => {
   const totalBears = useBearStore((state) => state.totalBears);
   const firstName = usePersonStore((state) => state.firstName);
+  const tasks = useTaskStore((state) => state.tasks);
+
+  const taskCount = Object.keys(tasks).length;
 
   return (
     <>
@@ -32,7 +36,7 @@ export const Dashboard = () => {
         <WhiteCard centered>
           <IoListOutline size={ 50 } className="text-indigo-600" />
           <h2>Tareas</h2>
-          <p>Información</p>
+          <p>{taskCount}</p>
         </WhiteCard>
 
 
